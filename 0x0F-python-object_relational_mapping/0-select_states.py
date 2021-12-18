@@ -1,19 +1,22 @@
 #!/usr/bin/python3
-
-
+'''Prints all rows in the states table of a database.
+'''
+import sys
 import MySQLdb
-from sys import argv
 
-'''
-a script should take 3 arguments: mysql username,
-mysql password and database name
-'''
-if __name__ == "__main__":
-    con = MySQLdb.connect(
-        host="localhost", port=3306, user=argv[1],
-        password=argv[2], database=argv[3])
-    cursor = con.cursor()
-    cursor.execute("SELECT * FROM states ORDER BY id ASC")
-    db = cursor.fetchall()
-    for i in db:
-        print(i)
+
+if __name__ == '__main__':
+    if len(sys.argv) >= 4:
+        db_connection = MySQLdb.connect(
+            host='localhost',
+            port=3306,
+            user=sys.argv[1],
+            passwd=sys.argv[2],
+            db=sys.argv[3]
+        )
+        cursor = db_connection.cursor()
+        cursor.execute('SELECT * FROM states ORDER BY id ASC;')
+        results = cursor.fetchall()
+        for result in results:
+            print(result)
+        db_connection.close()
