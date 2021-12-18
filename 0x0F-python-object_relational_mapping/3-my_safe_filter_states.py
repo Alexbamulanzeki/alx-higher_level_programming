@@ -1,22 +1,29 @@
 #!/usr/bin/python3
-
-
+'''Prints all rows in the states table of a database \
+with a name that matches the given argument and \
+is safe from SQL injection.
+'''
+import sys
 import MySQLdb
-from sys import argv
 
-'''
-lists all states with a name starting with N (upper N)
-from the database hbtn_0e_0_usa
-'''
-if __name__ == "__main__":
-    con = MySQLdb.connect(
-        host="localhost", port=3306, user=argv[1],
-        password=argv[2], database=argv[3])
-    cursor = con.cursor()
-    cursor.execute(
-        "SELECT * FROM states WHERE name LIKE %s ORDER BY id ASC",
-        (argv[4],)
+
+if __name__ == '__main__':
+    if len(sys.argv) >= 5:
+        db_connection = MySQLdb.connect(
+            host='localhost',
+            port=3306,
+            user=sys.argv[1],
+            passwd=sys.argv[2],
+            db=sys.argv[3]
         )
-    db = cursor.fetchall()
-    for i in db:
-        print(i)
+        cursor = db_connection.cursor()
+        state_name = sys.argv[4]
+        cursor.execute(
+            'SELECT * FROM states WHERE CAST(name AS BINARY) ' +
+            'LIKE %s ORDER BY id ASC;',
+            [state_name]
+        )
+        results = cursor.fetchall()
+        for result in results:
+            print(result)
+        db_connection.close()
