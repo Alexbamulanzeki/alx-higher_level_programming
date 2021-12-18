@@ -1,4 +1,4 @@
-!/usr/bin/python3
+#!/usr/bin/python3
 '''Prints all State objects in a database.
 '''
 import sys
