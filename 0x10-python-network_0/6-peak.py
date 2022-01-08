@@ -3,9 +3,8 @@
 a function that finds a peak in a list of unsorted integers
 '''
 
-
-def find_peak(loi):
+def find_peak(list_of_integers):
     '''
     Define find_peak function
     '''
-    return find_peak(loi)
+    return find_peak(list_of_integers)
